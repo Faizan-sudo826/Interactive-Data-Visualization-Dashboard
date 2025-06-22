@@ -1,0 +1,13 @@
+month,sales,profit,category
+January,15000,3000,Electronics
+February,18000,3600,Electronics
+March,22000,4400,Electronics
+April,12000,2400,Clothing
+May,16000,3200,Clothing
+June,20000,4000,Clothing
+July,25000,5000,Books
+August,19000,3800,Books
+September,21000,4200,Books
+October,28000,5600,Sports
+November,24000,4800,Sports
+December,30000,6000,Sports

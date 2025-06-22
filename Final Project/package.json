@@ -1,0 +1,49 @@
+{
+  "name": "interactive-data-visualization-dashboard",
+  "version": "1.0.0",
+  "description": "A modern, responsive web-based data visualization application built with D3.js",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -c-1 -p 8000",
+    "dev": "http-server -c-1 -p 8000 -o",
+    "build": "echo 'No build process required for this static site'",
+    "serve": "python -m http.server 8000",
+    "lint": "echo 'Linting not configured'",
+    "test": "echo 'Tests not configured'"
+  },
+  "keywords": [
+    "data-visualization",
+    "d3js",
+    "javascript",
+    "interactive-charts",
+    "dashboard",
+    "bar-chart",
+    "line-chart",
+    "scatter-plot",
+    "responsive",
+    "education"
+  ],
+  "author": "Data Visualization Course Student",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/interactive-data-visualization-dashboard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/interactive-data-visualization-dashboard/issues"
+  },
+  "homepage": "https://github.com/username/interactive-data-visualization-dashboard#readme",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "product": "Laptop",
+    "category": "Electronics",
+    "price": 1200,
+    "units_sold": 45,
+    "rating": 4.5,
+    "launch_date": "2023-01-15"
+  },
+  {
+    "product": "Smartphone",
+    "category": "Electronics", 
+    "price": 800,
+    "units_sold": 120,
+    "rating": 4.2,
+    "launch_date": "2023-02-20"
+  },
+  {
+    "product": "Desk Chair",
+    "category": "Furniture",
+    "price": 350,
+    "units_sold": 30,
+    "rating": 4.0,
+    "launch_date": "2023-03-10"
+  },
+  {
+    "product": "Coffee Maker",
+    "category": "Appliances",
+    "price": 150,
+    "units_sold": 85,
+    "rating": 4.3,
+    "launch_date": "2023-01-25"
+  },
+  {
+    "product": "Backpack",
+    "category": "Accessories",
+    "price": 60,
+    "units_sold": 200,
+    "rating": 4.1,
+    "launch_date": "2023-04-05"
+  },
+  {
+    "product": "Monitor",
+    "category": "Electronics",
+    "price": 400,
+    "units_sold": 65,
+    "rating": 4.4,
+    "launch_date": "2023-02-14"
+  },
+  {
+    "product": "Desk Lamp",
+    "category": "Furniture",
+    "price": 80,
+    "units_sold": 150,
+    "rating": 3.9,
+    "launch_date": "2023-03-20"
+  },
+  {
+    "product": "Wireless Mouse",
+    "category": "Electronics",
+    "price": 25,
+    "units_sold": 300,
+    "rating": 4.0,
+    "launch_date": "2023-01-30"
+  }
+]

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Data Visualization Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="bg-primary text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-0">📊 Interactive Data Visualization Dashboard</h1>
+                    <p class="mb-0 opacity-75">Explore data through interactive charts powered by D3.js</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <button id="themeToggle" class="btn btn-outline-light">
+                        <span id="themeIcon">🌙</span> Toggle Theme
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Controls -->
+            <div class="col-lg-3 col-md-4 sidebar">
+                <div class="controls-panel">
+                    <h4>📊 Chart Controls</h4>
+                      <!-- Chart Type Selector -->
+                    <div class="control-group">
+                        <label for="chartType" class="form-label">Chart Type</label>
+                        <select id="chartType" class="form-select">
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Chart</option>
+                            <option value="scatter">Scatter Plot</option>
+                            <option value="pie">Pie Chart</option>
+                            <option value="heatmap">Heatmap</option>
+                        </select>
+                    </div><!-- Data Import Section -->                    <div class="control-group">
+                        <label class="form-label">📂 Import Your Data</label>
+                        <div class="d-grid gap-2">
+                            <input type="file" id="fileInput" class="form-control" accept=".csv,.json" style="display: none;">
+                            <button id="fileImportBtn" class="btn btn-outline-primary btn-sm">
+                                📂 Choose File
+                            </button>
+                        </div>
+                        <small class="text-muted">Supports CSV and JSON files</small>
+                    </div>
+
+                    <!-- Data Source Selector -->
+                    <div class="control-group">
+                        <label for="dataSource" class="form-label">Data Source</label>
+                        <select id="dataSource" class="form-select">
+                            <option value="sales">Sales Data (Sample)</option>
+                            <option value="temperature">Temperature Data (Sample)</option>
+                            <option value="stocks">Stock Prices (Sample)</option>
+                        </select>
+                    </div>                    <!-- Dynamic Field Mapping -->
+                    <div class="control-group" id="fieldMappingContainer" style="display: none;">
+                        <label class="form-label">📋 Field Mapping</label>
+                        <div id="fieldMappingControls">
+                            <!-- Dynamic controls will be added here -->
+                        </div>
+                        <div id="mappingValidation" class="mt-2">
+                            <!-- Validation messages will appear here -->
+                        </div>
+                        <div class="d-grid gap-2 mt-3">
+                            <button id="applyMapping" class="btn btn-success btn-sm" disabled>
+                                ✅ Apply Mapping
+                            </button>
+                        </div>
+                        <small class="text-muted">Map your data fields to chart axes</small>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="control-group">
+                        <label for="dateRange" class="form-label">Date Range</label>
+                        <input type="range" id="dateRange" class="form-range" min="0" max="100" value="100">
+                        <div class="d-flex justify-content-between">
+                            <small id="dateStart">Start</small>
+                            <small id="dateEnd">End</small>
+                        </div>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="control-group">
+                        <label for="categoryFilter" class="form-label">Category Filter</label>
+                        <select id="categoryFilter" class="form-select" multiple>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+
+                    <!-- Value Range -->
+                    <div class="control-group">
+                        <label for="valueRange" class="form-label">Value Range</label>
+                        <input type="range" id="valueRange" class="form-range" min="0" max="100" value="100">
+                        <div class="d-flex justify-content-between">
+                            <small id="valueMin">Min</small>
+                            <small id="valueMax">Max</small>
+                        </div>
+                    </div>
+
+                    <!-- Export Options -->
+                    <div class="control-group">
+                        <label class="form-label">Export Chart</label>
+                        <div class="d-grid gap-2">
+                            <button id="exportPNG" class="btn btn-outline-primary btn-sm">📄 Export PNG</button>
+                            <button id="exportSVG" class="btn btn-outline-primary btn-sm">📄 Export SVG</button>
+                        </div>
+                    </div>
+
+                    <!-- Data Summary -->
+                    <div class="control-group">
+                        <h5>📈 Data Summary</h5>
+                        <div id="dataSummary" class="data-summary">
+                            <div class="summary-item">
+                                <span class="label">Total Records:</span>
+                                <span id="totalRecords" class="value">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Selected:</span>
+                                <span id="selectedRecords" class="value">-</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Average:</span>
+                                <span id="averageValue" class="value">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chart Area -->
+            <div class="col-lg-9 col-md-8 main-content">
+                <!-- Loading Spinner -->
+                <div id="loadingSpinner" class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading data visualization...</p>
+                </div>
+
+                <!-- Chart Container -->
+                <div id="chartContainer" class="chart-container">
+                    <div class="chart-header">
+                        <h3 id="chartTitle">Sales Performance Over Time</h3>
+                        <p id="chartDescription" class="text-muted">Interactive visualization showing sales trends and patterns</p>
+                    </div>
+                    
+                    <!-- Chart Area -->
+                    <div id="chartArea" class="chart-area">
+                        <svg id="mainChart"></svg>
+                    </div>
+
+                    <!-- Chart Legend -->
+                    <div id="chartLegend" class="chart-legend">
+                        <!-- Legend items will be populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- Chart Info Panel -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <h5>🎯 Chart Interactions</h5>
+                            <ul class="interaction-list">
+                                <li><strong>Hover:</strong> View detailed tooltips</li>
+                                <li><strong>Click:</strong> Select/deselect data points</li>
+                                <li><strong>Scroll:</strong> Zoom in/out (scatter plot)</li>
+                                <li><strong>Drag:</strong> Pan around the chart</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-card">
+                            <h5>📊 Chart Statistics</h5>
+                            <div id="chartStats" class="chart-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Max Value:</span>
+                                    <span id="maxValue" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Min Value:</span>
+                                    <span id="minValue" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Data Points:</span>
+                                    <span id="dataPoints" class="stat-value">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip-custom"></div>    <!-- Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/dataLoader.js"></script>
+    <script src="js/barChart.js"></script>
+    <script src="js/lineChart.js"></script>
+    <script src="js/scatterPlot.js"></script>
+    <script src="js/pieChart.js"></script>
+    <script src="js/heatmap.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
